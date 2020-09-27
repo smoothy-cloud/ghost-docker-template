@@ -18,11 +18,11 @@ class Test extends TemplateTest
     {
         $this->deployApplication([
             'ghost_version' => 3,
-            'ghost_url' => 'http://localhost:10000',
+            'ghost_url' => 'http://localhost:50000',
             'database_type' => 'sqlite3',
         ]);
 
-        $browser = new Browser('http://localhost:10000');
+        $browser = new Browser('http://localhost:50000');
 
         $browser->visit('/');
         $this->assertTrue($browser->pathIs('/'));

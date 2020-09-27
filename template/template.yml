@@ -141,10 +141,6 @@ deployment:
   - resource: container
     name: ghost
     image: ghost:3
-    endpoints:
-      - name: ghost_external
-        type: domain
-        port: 2368
     volume_mounts:
       - volume: "{{ volume.ghost_data }}"
         mount_path: /var/lib/ghost/content
@@ -192,18 +188,14 @@ deployment:
       - key: logging__level
         value: error
     memory: 512
-    cpus: 512
+    cpus: 500
+  - resource: service
+    name: ghost
+    title: Ghost
+    container: "{{ container.ghost }}"
+    port: 2368
 
 interface:
-  endpoints:
-    show:
-      - title: Test endpoint
-        endpoint: '{{ endpoint.ghost_external }}'
-    create:
-      - title: Endpoint
-        container: "{{ container.ghost }}"
-        port: 2368
-        type: domain
   volumes:
     - title: Ghost data
       volume: "{{ volume.ghost_data }}"
