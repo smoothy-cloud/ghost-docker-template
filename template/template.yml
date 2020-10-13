@@ -106,12 +106,12 @@ form:
           <a href="https://ghost.org/docs/concepts/config/#mail" target="_blank">the Ghost documentation</a>.
           If you use a <a href="https://github.com/nodemailer/nodemailer/tree/0.7/#well-known-services-for-smtp"
           target="_blank">well known SMTP service</a>, you may not need to enter the hostname or port number.
-        type: text
+        type: string
       - variable: smtp_host
         label: SMTP host
         hint: >
           Specify the host of the SMTP serivice that Ghost may use to send its emails.
-        type: text
+        type: string
       - variable: smtp_port
         label: SMTP port
         hint: >
@@ -121,7 +121,7 @@ form:
         label: SMTP user
         hint: >
           Specify the user of the SMTP serivice that Ghost may use to send its emails.
-        type: text
+        type: string
       - variable: smtp_password
         label: SMTP password
         hint: >
