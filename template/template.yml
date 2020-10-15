@@ -140,7 +140,10 @@ deployment:
     name: ghost_data
   - resource: container
     name: ghost
-    image: ghost:3
+    image:
+      switch:
+        - case: "{{ variable.ghost_version == 3 }}"
+          value: ghost:3
     volume_mounts:
       - volume: "{{ volume.ghost_data }}"
         mount_path: /var/lib/ghost/content
