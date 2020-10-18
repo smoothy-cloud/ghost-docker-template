@@ -12,10 +12,13 @@ meta:
   requirements:
     - title: MySQL application
       description: >
-        This can be a MySQL application installed using Smoothy, or an external MySQL instance.
+        Ghost stores its data in either a MySQL database or an SQLite database. If you want to use the MySQL option,
+        you first need to install a MySQL application.
     - title: Domain name
       description: >
-        This is share your Ghost blog with the outside world.
+        To correctly generate links to your publications, Ghost requires you to specify the URL over which you
+        will serve your Ghost application. For example: <code>https://blog.tesla.com</code>. You will be able
+        to change this URL later on.
 form:
   - title: General
     questions:
@@ -32,21 +35,18 @@ form:
       - variable: ghost_url
         label: Ghost URL
         hint: >
-          In order to correctly generate links to your publications, Ghost requires you
-          to specify the URL over which you will serve your Ghost application. For example:
-          <code>https://blog.michielkempen.com</code>. You will be able to change this URL
-          later on.
+          To correctly generate links to your publications, Ghost requires you to specify the URL over which you
+          will serve your Ghost application. For example: <code>https://blog.tesla.com</code>. You will be able
+          to change this URL later on.
         required: true
         type: url
   - title: Database
-    description: >
-      Ghost stores all its data in a MySQL database. Therefore, prior to the installation of a Ghost
-      application, you should create a MySQL application on one of your deployments, if you do not
-      already have one running. In this step, you can then link your MySQL application to your Ghost
-      application.
     questions:
       - variable: database_type
         label: Database type
+        hint: >
+          Ghost stores its data in either a MySQL database or an SQLite database. For blogs with little traffic,
+          SQLite is a great low cost solution. For blogs with lots of visitors, the MySQL option is recommended.
         required: true
         type: select
         options:
@@ -85,17 +85,16 @@ form:
       - variable: database_name
         label: Database name
         hint: >
-          Specify the name of the SQL database that your application should use to store its data.
-          If the database does not yet exists, Smoothy will automatically create it for you.
+          Specify the name of the SQL database that your application should use to store its data. Make sure that the
+          database exists before installing your application.
         type: string
         required: true
         if: "{{ variable.database_type == 'mysql' }}"
   - title: Email
     description: >
-      In order for Ghost to be able to send emails such as lost password and user invite emails,
-      or member signup emails if you're running a membership publication with Ghost, you need to
-      set up an integration with an external mail service. If you are new to Ghost or do not really
-      know how to configure an email service, make sure to read through the mail section in
+      In order for Ghost to be able to send emails such as lost password and user invite emails, or member signup
+      emails if you're running a membership publication with Ghost, you need to set up an integration with an
+      external mail service. You can learn more about this topic in the mail section of
       <a href="https://ghost.org/docs/concepts/config/#mail" target="_blank">the Ghost documentation</a>.
     questions:
       - variable: smtp_service
@@ -145,7 +144,7 @@ deployment:
         - case: "{{ variable.ghost_version == 3 }}"
           value: ghost:3
     volume_mounts:
-      - volume: "{{ volume.ghost_data }}"
+      - volume: "{* volume.ghost_data *}"
         mount_path: /var/lib/ghost/content
     environment:
       # general
@@ -195,13 +194,13 @@ deployment:
   - resource: service
     name: ghost
     title: Ghost
-    container: "{{ container.ghost }}"
+    container: "{* container.ghost *}"
     port: 2368
 
 interface:
   volumes:
     - title: Ghost data
-      volume: "{{ volume.ghost_data }}"
+      volume: "{* volume.ghost_data *}"
   logs:
     - title: Ghost logs
-      container: "{{ container.ghost }}"
+      container: "{* container.ghost *}"
