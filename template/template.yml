@@ -191,7 +191,7 @@ deployment:
         value: error
     memory: 512
     cpus: 500
-  - resource: service
+  - resource: entrypoint
     name: ghost
     title: Ghost
     container: "{* container.ghost *}"
